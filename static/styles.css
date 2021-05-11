@@ -1,0 +1,86 @@
+* {
+    box-sizing: border-box;
+}
+
+html{
+    padding: 0px;
+    margin: 0px;
+}
+
+.links{
+    display:flex;
+    align-items: center;
+    height: 70%;
+    width: auto;
+    cursor: pointer;
+}
+
+.navimg{
+    height: 100%;
+}
+
+#articles:hover, #restaurants:hover{
+    animation: marire 1s forwards;
+}
+@keyframes marire {
+    from {
+        transform: scale(1);
+        filter:brightness(90%);
+    }
+    to {
+        transform: scale(1.2);
+        filter:brightness(90%);
+    }
+}
+
+#articles{
+    margin-left:150px;
+}
+#restaurants{
+    margin-right:150px;
+}
+
+#logo{
+    height: 5.5vh;
+    border-radius: 50%;
+    filter:brightness(120%);
+    animation: rotation 6s infinite linear;
+}
+@keyframes rotation {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(359deg);
+    }
+  }
+
+.navbar{
+    background-color:black;
+    width: 100vw;
+    height: 6vh;
+    margin-left: -8px;
+    padding: 0px;
+    position:fixed;
+    top:0px;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rest-container{
+    display:flex;
+    align-items:center;
+    flex-direction: column;
+}
+
+.content-container{
+    margin-top: 80px;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    flex-direction: column;
+}
+.rest-button-container{
+    margin-top:10px;
+}

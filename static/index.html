@@ -1,16 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <link rel="stylesheet" type="text/css" href="/styles.css">
     <title>Dogs</title>
+    <script src="https://use.fontawesome.com/8707a36cb4.js"></script>
 </head>
+
 <body>
     <nav class="navbar">
         <a class="links" id="restaurants" onclick="restaurante();"><img class="navimg" src="restaurants.jpg"></a>
-        <a class="links" href=""><img class="navimg" id="logo" src="logo.jpg"><img class="navimg" src="reviewr.jpg"></a>
+        <a class="links" id="mainlogo" href=""><img class="navimg" id="logo" src="logo.jpg"><img class="navimg"
+                src="reviewr.jpg"></a>
         <a class="links" id="articles" href="/index.html"><img class="navimg" src="articles.jpg"></a>
     </nav>
     <script src="script.js" defer></script>
-    <div class="content-container"></div>
+    <main class="main">
+        <div class="content-container">
+            <div class="imgdiv">
+                <div class="prevdiv" onclick="preview('-');">
+                    <a class="prev"><</a>
+                </div>
+                <img alt="restaurant" class="imgmain fade">
+                <div class="nextdiv" onclick="preview('+');">
+                    <a class="next">></a>
+                </div>
+                <div class="rest-info">
+                    <div class="rest-info" id="div-address">
+                        <i class="fa fa-map-marker fa-2x"></i>
+                        <h1 class="rest-text" id="rest-address"></h1>
+                    </div>
+                    <div class="rest-info">
+                        <h1 class="rest-text" id="rest-title"></h1>
+                    </div>
+                    <div class="rest-info" id="div-phone">
+                        <i class="fa fa-phone fa-2x"></i>
+                        <h1 class="rest-text" id="rest-phone"></h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 </body>
+
 </html>

@@ -19,18 +19,12 @@ html{
     margin-right: 6vw;
 }
 
-#articles:hover, #restaurants:hover{
-    animation: marire 1s forwards;
+#articles, #restaurants{
+    transition: all .4s ease;
 }
-@keyframes marire {
-    from {
-        transform: scale(1);
-        filter:brightness(90%);
-    }
-    to {
-        transform: scale(1.2);
-        filter:brightness(90%);
-    }
+
+#articles:hover, #restaurants:hover{
+    height: 80%;
 }
 
 
@@ -156,7 +150,7 @@ body{
 }
 
 .rest-text{
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     color: #fac237;
     filter: brightness(85%);
     font-size: 30px;
@@ -239,4 +233,94 @@ li{
 .fa{
     width: 40px;
     text-align: center;
+}
+
+.createrdiv{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.top-buttons{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 400px;
+    padding: 10px;
+    margin-top: 20px;
+    border:none;
+    background-color: white;
+    box-shadow: -10px 10px rgba(0,0,0,.15);
+    transition: all .4s ease;
+}
+.top-buttons:hover {
+  box-shadow: -5px 5px rgba(0,0,0,.25);
+}
+
+input{
+    margin-top: 10px;
+    width: 70%;
+    height: 20px;
+    border:none;
+    box-shadow:inset 0 0 2px 1px #cccccc;
+}
+
+input:focus{
+    outline:none;
+    box-shadow:inset 0 0 2px 1px #9c9c9c;
+}
+
+.but{
+    margin-top: 8px;
+    margin-bottom: 8px;
+    width: 100px;
+    height: 30px;
+    font-size: medium;
+    background-color: #ddd;
+    transition: all .5 ease;
+    border: none;
+    border-radius: 15%;
+    box-shadow: 0px 5px rgba(0,0,0,.50);
+}
+.but:hover{
+    background-color: rgb(195, 194, 194);
+}
+.but:active{
+    transform: translatey(2px);
+    box-shadow: 0px 3px rgba(0,0,0,.50);
+}
+
+.but-edit, .but-del{
+    margin-left: 5px;
+}
+
+*{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.rest-creater{
+    width: 200px;
+    height: 40px;
+    font-size: medium;
+    background-color: white;
+    transition: all .5 ease;
+    border: none;
+    border-radius: 15%;
+    box-shadow: 0px 10px rgba(0,0,0,.15);
+    margin-top: 40px;
+}
+
+.rest-creater:hover{
+    background-color: rgb(248, 248, 248);
+}
+.but-active{
+    transform: translatey(4px);
+    background-color: rgb(248, 248, 248);
+    box-shadow: 0px 5px rgba(0,0,0,.15);
+}
+
+button{
+    cursor: pointer;
 }

@@ -1,0 +1,29 @@
+{
+    "articles": [
+        {
+            "id": "1",
+            "name": "Casa di David",
+            "img": "https://imgur.com/MQ0AvdI.jpg",
+            "description": "lorem23",
+            "rating":"5",
+            "address":"Soseaua Nordului, Bucuresti",
+            "phone": "021 232 4715"
+          },
+        {
+            "id": "2",
+            "name": "WHYS",
+            "img": "https://imgur.com/b4w6j3v.jpg",
+            "rating": "5",
+            "address": "Pasajul Macca, Bucuresti",
+            "phone": "0785 059 173"
+        },
+        {
+            "id": "3",
+            "name": "Le Bistrot Francais",
+            "img": "https://imgur.com/5fuY1rt.jpg",
+            "rating": "2",
+            "address": "Strada Nicolae Golescu, Bucuresti",
+            "phone": "0756 018 393"
+        }
+    ]
+  }

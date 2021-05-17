@@ -8,6 +8,7 @@
 </head>
 
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <nav class="navbar">
         <a class="links" id="restaurants" onclick="restaurante();"><img class="navimg" src="restaurants.jpg"></a>
         <a class="links" id="mainlogo" href=""><img class="navimg" id="logo" src="logo.jpg"><img class="navimg"
@@ -18,11 +19,11 @@
     <main class="main">
         <div class="content-container">
             <div class="imgdiv">
-                <div class="prevdiv" onclick="preview('-');">
+                <div class="prevdiv" onclick="cxc('-');">
                     <a class="prev"><</a>
                 </div>
                 <img alt="restaurant" class="imgmain fade">
-                <div class="nextdiv" onclick="preview('+');">
+                <div class="nextdiv" onclick="cxc('+');">
                     <a class="next">></a>
                 </div>
                 <div class="rest-info">

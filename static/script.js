@@ -37,7 +37,7 @@ function putimg(dogs) {
   }
 }
 
-function preview(x) {
+function cxc(x) {
   fetch("http://localhost:3000/dogs")
     .then(
       function (response) {
@@ -124,7 +124,7 @@ function restaurante() {
 
   function renderDogs(dogs) {
     document.getElementsByClassName("main")[0].setAttribute("style", "all: unset;");
-    document.getElementsByTagName("html")[0].setAttribute("style", "background-color:#ddd;");
+    document.getElementsByTagName("html")[0].setAttribute("style", "background-color:#ddd; ");
     body.innerHTML = "";
     let creater = document.createElement("button");
     creater.setAttribute("class", "rest-creater");
@@ -342,7 +342,6 @@ async function deldog(i) {
   console.log(result);
   setTimeout(restaurante(), 400);
 }
-
 function articole() {
   fetch("http://localhost:3000/articles")
     .then(
@@ -364,7 +363,8 @@ function articole() {
 
   function renderArticles(dogs) {
     document.getElementsByClassName("main")[0].setAttribute("style", "all: unset;");
-    document.getElementsByTagName("html")[0].setAttribute("style", "background-color:#ddd;")
+    document.getElementsByTagName("body")[0].setAttribute("style", "background-color:#ddd;");
+    document.getElementsByTagName("html")[0].setAttribute("style", "font-family: Arial, Helvetica, sans-serif;");
     body.innerHTML = "";
     let creater = document.createElement("button");
     creater.setAttribute("class", "rest-creater");
@@ -374,10 +374,10 @@ function articole() {
     createrdiv.setAttribute("class", "createrdiv")
     createrdiv.appendChild(creater);
     body.appendChild(createrdiv);
-
+    let ccdiv = document.createElement("div");
+    ccdiv.className = "article-cc";
     for (let i in dogs) {
       div = document.createElement("div");
-      img = document.createElement("img");
 
       edit = document.createElement("button");
       del = document.createElement("button");
@@ -397,51 +397,124 @@ function articole() {
       buttonss.appendChild(edit);
       buttonss.appendChild(del)
 
-      h2 = document.createElement("h2");
-      h2.innerText = dogs[i].name;
-      h2.className = "rest-name";
       p = document.createElement("p");
       p.setAttribute("class", "art-desc");
-      p.innerText = dogs[i].description;
+      p.innerHTML = marked(dogs[i].description, { breaks: true });
 
-
-      body.setAttribute("style", "background-color:#ddd;");
-      div.appendChild(h2);
       div.appendChild(p);
       div.appendChild(buttonss);
       div.className = "rest-container article";
-      body.appendChild(div);
+      ccdiv.appendChild(div);
     }
+    body.appendChild(ccdiv);
+    body.setAttribute("style", "background-color:#ddd;");
   }
 }
 
 function showartdiv() {
+  document.getElementsByClassName("article-cc")[0].innerHTML = "";
   document.getElementsByClassName("rest-creater")[0].setAttribute("class", "rest-creater but-active");
 
   let input1 = document.createElement("input");
   input1.setAttribute("type", "text");
   input1.setAttribute("id", "input1");
-  input1.setAttribute("placeholder", "Name");
+  input1.setAttribute("placeholder", "Title");
   input1.setAttribute("maxlength", "30");
 
-  let input2 = document.createElement("input");
+  let input2 = document.createElement("textarea");
   input2.setAttribute("type", "text");
   input2.setAttribute("id", "input2");
   input2.setAttribute("placeholder", "Text");
 
   let newdiv = document.createElement("div");
-  newdiv.className = "top-buttons";
+  newdiv.setAttribute("class", "top-buttons buttons-article");
 
   let createrdiv = document.getElementsByClassName("createrdiv")[0];
   newdiv.appendChild(input1);
   newdiv.appendChild(input2);
 
-
+  let buttondiv = document.createElement("div");
+  buttondiv.setAttribute("class", "newart-buttons");
   let button = document.createElement("button");
   button.setAttribute("class", "but");
   button.innerText = "Add";
   button.setAttribute("onclick", "addart();");
-  newdiv.append(button);
+  buttondiv.append(button);
+  let button1 = document.createElement("button");
+  button1.setAttribute("class", "but");
+  button1.innerText = "Preview";
+  button1.setAttribute("onclick", "preview();");
+  buttondiv.append(button1);
+  newdiv.appendChild(buttondiv);
+  document.getElementsByClassName("rest-creater")[0].setAttribute("onclick", "articole();")
+  createrdiv.appendChild(newdiv);
+}
+
+function preview() {
+  contents = document.getElementsByClassName("content-container")[0];
+  try{
+    es = document.getElementsByClassName("top-buttons")[1];
+    contents.removeChild(es);
+  }
+  catch{
+    ;
+  }
+  newdiv = document.createElement("div");
+  newdiv.setAttribute("class", "top-buttons buttons-article");
+  textb = document.getElementsByTagName("textarea")[0];
+  newp = document.createElement("p");
+  newp.setAttribute("class", "art-desc");
+  newp.innerHTML = marked(textb.value, { breaks: true });
+  newdiv.append(newp);
+  contents.appendChild(newdiv);
+}
+
+async function placeartinfo(i) {
+  let response = await fetch("http://localhost:3000/articles/" + i, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json;charset=utf-8"
+    },
+  });
+  let result = await response.json();
+  document.getElementsByClassName("article-cc")[0].innerHTML = "";
+  let dd = document.getElementsByClassName("rest-creater")[0]
+  dd.setAttribute("class", "rest-creater but-active");
+  dd.innerText = "Editing mode";
+
+  let input1 = document.createElement("input");
+  input1.setAttribute("type", "text");
+  input1.setAttribute("id", "input1");
+  input1.setAttribute("value", result.name);
+  input1.setAttribute("maxlength", "30");
+
+  let input2 = document.createElement("textarea");
+  input2.setAttribute("type", "text");
+  input2.setAttribute("id", "input2");
+  input2.innerHTML = result.description;
+  input2.setAttribute("placeholder", "Text");
+
+  let newdiv = document.createElement("div");
+  newdiv.setAttribute("class", "top-buttons buttons-article");
+
+  let createrdiv = document.getElementsByClassName("createrdiv")[0];
+  newdiv.appendChild(input1);
+  newdiv.appendChild(input2);
+
+  let buttondiv = document.createElement("div");
+  buttondiv.setAttribute("class", "newart-buttons");
+  let button = document.createElement("button");
+  button.setAttribute("class", "but");
+  button.innerText = "Edit";
+  button.setAttribute("id", i);
+  button.setAttribute("onclick", "editart(this.id);");
+  buttondiv.append(button);
+  let button1 = document.createElement("button");
+  button1.setAttribute("class", "but");
+  button1.innerText = "Preview";
+  button1.setAttribute("onclick", "preview();");
+  buttondiv.append(button1);
+  newdiv.appendChild(buttondiv);
   document.getElementsByClassName("rest-creater")[0].setAttribute("onclick", "articole();")
   createrdiv.appendChild(newdiv);
 }
@@ -460,49 +533,7 @@ async function addart() {
   });
   let result = await response.json();
   console.log(result);
-  setTimeout(articole(), 500);
-}
-
-async function placeartinfo(i) {
-  let response = await fetch("http://localhost:3000/articles/" + i, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json;charset=utf-8"
-    },
-  });
-  let result = await response.json();
-  let but = document.getElementsByClassName("rest-creater")[0];
-  but.setAttribute("class", "rest-creater but-active");
-  but.innerText = "Editing mode";
-  let input1 = document.createElement("input");
-  input1.setAttribute("type", "text");
-  input1.setAttribute("id", "input1");
-  input1.setAttribute("value", result.name);
-  input1.setAttribute("maxlength", "30");
-
-  let input2 = document.createElement("input");
-  input2.setAttribute("type", "text");
-  input2.setAttribute("id", "input2");
-  input2.setAttribute("value", result.description);
-
-  let newdiv = document.createElement("div");
-  newdiv.className = "top-buttons";
-
-  let createrdiv = document.getElementsByClassName("createrdiv")[0];
-  newdiv.appendChild(input1);
-  newdiv.appendChild(input2);
-
-
-  let button = document.createElement("button");
-  button.setAttribute("class", "but");
-  button.innerText = "Edit";
-  button.setAttribute("id", i);
-  button.setAttribute("onclick", "editart(this.id);");
-  newdiv.append(button);
-  document.getElementsByClassName("rest-creater")[0].setAttribute("onclick", "articole();")
-  createrdiv.appendChild(newdiv);
-  document.body.scrollTop = 0; //Safari
-  document.documentElement.scrollTop = 0; //restul
+  setTimeout(articole(), 300);
 }
 
 async function editart(i) {
@@ -520,7 +551,7 @@ async function editart(i) {
   });
   let result = await response.json();
   console.log(result);
-  setTimeout(articole(), 500);
+  setTimeout(articole(), 300);
 }
 
 async function delart(i) {
@@ -530,5 +561,5 @@ async function delart(i) {
 
   let result = await response.json();
   console.log(result);
-  setTimeout(articole(), 500);
+  setTimeout(articole(), 300);
 }

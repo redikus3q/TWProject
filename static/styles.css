@@ -28,7 +28,6 @@ html{
 }
 
 
-
 #logo{
     height: 5.5vh;
     border-radius: 50%;
@@ -58,7 +57,7 @@ html{
     z-index: 10;
 }
 
-.content-container{
+.content-container, .article-cc{
     margin-right: -8px;
     margin-left: -8px;
     display: flex;
@@ -243,6 +242,10 @@ li{
     margin-top: 20px;
 }
 
+.createrdiv *{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
 .top-buttons{
     display: flex;
     flex-direction: column;
@@ -262,9 +265,10 @@ li{
 
 input{
     margin-top: 10px;
-    width: 70%;
-    height: 20px;
+    width: 80%;
+    height: 25px;
     border:none;
+    font-size: large;
     box-shadow:inset 0 0 2px 1px #cccccc;
 }
 
@@ -297,7 +301,7 @@ input:focus{
     margin-left: 5px;
 }
 
-*{
+.rest-container *{
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 .rest-creater{
@@ -330,4 +334,57 @@ button{
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    width: 60vw;
+}
+
+.article *{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+textarea{
+    margin-top: 10px;
+    width: 90%;
+    height: 55vh;
+    font-size: large;
+    border:none;
+    box-shadow:inset 0 0 2px 1px #cccccc;
+    font-family: Arial, Helvetica, sans-serif;
+    box-shadow:inset 0 0 2px 1px #cccccc;
+}
+
+textarea:focus{
+    outline:none;
+    box-shadow:inset 0 0 2px 1px #9c9c9c;
+}
+
+.art-desc{
+    align-self: flex-start;
+    padding-left: 6px;
+}
+
+.buttons-article{
+    width: 80vw;
+    box-shadow: -20px 20px rgba(0,0,0,.15);
+    transition: all .4s ease;
+    margin-bottom: 15px;
+}
+.buttons-article:hover {
+  box-shadow: -10px 10px rgba(0,0,0,.25);
+}
+
+.buttons-article *{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.but{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.buttons-article #input1{
+    width: 40%;
+}
+
+.newart-buttons *{
+    margin-left: 4px;
+    margin-right: 4px;
 }

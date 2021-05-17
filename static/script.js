@@ -1,10 +1,10 @@
 let body = document.getElementsByClassName("content-container")[0];
 
-fetch('http://localhost:3000/dogs')
+fetch("http://localhost:3000/dogs")
   .then(
     function (response) {
       if (response.status !== 200) {
-        console.log('Looks like there was a problem. Status Code: ' +
+        console.log("Looks like there was a problem. Status Code: " +
           response.status);
         return;
       }
@@ -14,7 +14,7 @@ fetch('http://localhost:3000/dogs')
     }
   )
   .catch(function (err) {
-    console.log('Fetch Error :-S', err);
+    console.log("Fetch Error :-S", err);
   });
 
 function putimg(dogs) {
@@ -38,11 +38,11 @@ function putimg(dogs) {
 }
 
 function preview(x) {
-  fetch('http://localhost:3000/dogs')
+  fetch("http://localhost:3000/dogs")
     .then(
       function (response) {
         if (response.status !== 200) {
-          console.log('Looks like there was a problem. Status Code: ' +
+          console.log("Looks like there was a problem. Status Code: " +
             response.status);
           return;
         }
@@ -52,7 +52,7 @@ function preview(x) {
       }
     )
     .catch(function (err) {
-      console.log('Fetch Error :-S', err);
+      console.log("Fetch Error :-S", err);
     });
   function solve(dogs) {
     let dog = document.getElementsByClassName("imgmain")[0];
@@ -66,7 +66,7 @@ function preview(x) {
     if (goodDogs) {
       let obj = goodDogs[0];
       let f = 0;
-      if (x == '-') {
+      if (x == "-") {
         for (let i in goodDogs) {
           if (goodDogs[i].id < y) {
             obj = goodDogs[i];
@@ -77,7 +77,7 @@ function preview(x) {
           obj = goodDogs[goodDogs.length - 1];
         }
       }
-      if (x == '+') {
+      if (x == "+") {
         for (let i in goodDogs) {
           if (goodDogs[i].id > y) {
             obj = goodDogs[i];
@@ -89,7 +89,7 @@ function preview(x) {
           obj = goodDogs[0];
         }
       }
-      dog.setAttribute("src", obj.img)
+      dog.setAttribute("src", obj.img);
       dog.setAttribute("id", "img" + obj.id);
       dog.setAttribute("animation", "none");
       dog.className = "imgmain";
@@ -104,11 +104,11 @@ function preview(x) {
 }
 
 function restaurante() {
-  fetch('http://localhost:3000/dogs')
+  fetch("http://localhost:3000/dogs")
     .then(
       function (response) {
         if (response.status !== 200) {
-          console.log('Looks like there was a problem. Status Code: ' +
+          console.log("Looks like there was a problem. Status Code: " +
             response.status);
           return;
         }
@@ -119,28 +119,28 @@ function restaurante() {
       }
     )
     .catch(function (err) {
-      console.log('Fetch Error :-S', err);
+      console.log("Fetch Error :-S", err);
     });
 
   function renderDogs(dogs) {
     document.getElementsByClassName("main")[0].setAttribute("style", "all: unset;");
-    document.getElementsByTagName("html")[0].setAttribute("style","background-color:#ddd;")
+    document.getElementsByTagName("html")[0].setAttribute("style", "background-color:#ddd;");
     body.innerHTML = "";
     let creater = document.createElement("button");
     creater.setAttribute("class", "rest-creater");
     creater.setAttribute("onclick", "showdiv();");
     creater.innerText = "Add a restaurant";
     let createrdiv = document.createElement("div");
-    createrdiv.setAttribute("class", "createrdiv")
+    createrdiv.setAttribute("class", "createrdiv");
     createrdiv.appendChild(creater);
     body.appendChild(createrdiv);
 
     for (let i in dogs) {
-      div = document.createElement('div');
-      img = document.createElement('img');
+      div = document.createElement("div");
+      img = document.createElement("img");
 
-      edit = document.createElement('button');
-      del = document.createElement('button');
+      edit = document.createElement("button");
+      del = document.createElement("button");
 
       edit.innerText = "Edit";
       edit.setAttribute("id", dogs[i].id);
@@ -152,17 +152,17 @@ function restaurante() {
       del.setAttribute("onclick", "deldog(this.id);");
       del.setAttribute("class", "but but-del");
 
-      buttonss = document.createElement('div');
+      buttonss = document.createElement("div");
       buttonss.className = "rest-button-container";
       buttonss.appendChild(edit);
-      buttonss.appendChild(del)
+      buttonss.appendChild(del);
 
       img.setAttribute("src", dogs[i].img);
       img.className = "rest-img";
-      h2 = document.createElement('h2');
+      h2 = document.createElement("h2");
       h2.innerText = dogs[i].name;
       h2.className = "rest-name";
-      ul = document.createElement('ul');
+      ul = document.createElement("ul");
       ul.className = "rest-desc";
       ul.innerHTML = `
         <li>
@@ -177,7 +177,7 @@ function restaurante() {
           <i class="fa fa-phone fa-2x"></i>
           <h1 class="rest-address-2">`+ dogs[i].phone + `</h1>
         </li>
-      `
+      `;
       body.setAttribute("style", "background-color:#ddd;");
       newdiv = document.createElement("div");
       newdiv.setAttribute("class", "rest-img-div");
@@ -188,7 +188,6 @@ function restaurante() {
       div.appendChild(buttonss);
       div.className = "rest-container";
       body.appendChild(div);
-      input = document.createElement("input");
     }
   }
 }
@@ -234,13 +233,6 @@ function showdiv() {
   button.innerText = "Add";
   button.setAttribute("onclick", "adddog();");
   newdiv.append(button);
-
-  // let button1 = document.createElement("button");
-  // button1.className="upd";
-  // button1.setAttribute("disabled", "");
-  // button1.innerText = "Update";
-  // button1.setAttribute("onclick", "editdog(this.id);");
-  // newdiv.append(button1);
   document.getElementsByClassName("rest-creater")[0].setAttribute("onclick", "restaurante();")
   createrdiv.appendChild(newdiv);
 }
@@ -253,10 +245,10 @@ async function adddog() {
     address: document.getElementById("input3").value,
     phone: document.getElementById("input4").value
   };
-  let response = await fetch('http://localhost:3000/dogs', {
-    method: 'POST',
+  let response = await fetch("http://localhost:3000/dogs", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json;charset=utf-8'
+      "Content-Type": "application/json;charset=utf-8"
     },
     body: JSON.stringify(dog)
   });
@@ -266,10 +258,10 @@ async function adddog() {
 }
 
 async function placeinfo(i) {
-  let response = await fetch('http://localhost:3000/dogs/' + i, {
-    method: 'GET',
+  let response = await fetch("http://localhost:3000/dogs/" + i, {
+    method: "GET",
     headers: {
-      'Content-Type': 'application/json;charset=utf-8'
+      "Content-Type": "application/json;charset=utf-8"
     },
   });
   let result = await response.json();
@@ -315,14 +307,7 @@ async function placeinfo(i) {
   button.setAttribute("id", i);
   button.setAttribute("onclick", "editdog(this.id);");
   newdiv.append(button);
-
-  // let button1 = document.createElement("button");
-  // button1.className="upd";
-  // button1.setAttribute("disabled", "");
-  // button1.innerText = "Update";
-  // button1.setAttribute("onclick", "editdog(this.id);");
-  // newdiv.append(button1);
-  document.getElementsByClassName("rest-creater")[0].setAttribute("onclick", "restaurante();")
+  document.getElementsByClassName("rest-creater")[0].setAttribute("onclick", "restaurante();");
   createrdiv.appendChild(newdiv);
   document.body.scrollTop = 0; //Safari
   document.documentElement.scrollTop = 0; //restul
@@ -336,10 +321,10 @@ async function editdog(i) {
     address: document.getElementById("input3").value,
     phone: document.getElementById("input4").value,
   };
-  let response = await fetch('http://localhost:3000/dogs/' + i, {
-    method: 'PUT',
+  let response = await fetch("http://localhost:3000/dogs/" + i, {
+    method: "PUT",
     headers: {
-      'Content-Type': 'application/json;charset=utf-8'
+      "Content-Type": "application/json;charset=utf-8"
     },
     body: JSON.stringify(dog)
   });
@@ -349,8 +334,8 @@ async function editdog(i) {
 }
 
 async function deldog(i) {
-  let response = await fetch('http://localhost:3000/dogs/' + i, {
-    method: 'DELETE'
+  let response = await fetch("http://localhost:3000/dogs/" + i, {
+    method: "DELETE"
   });
 
   let result = await response.json();
@@ -359,89 +344,191 @@ async function deldog(i) {
 }
 
 function articole() {
-  fetch('http://localhost:3000/articles')
+  fetch("http://localhost:3000/articles")
     .then(
       function (response) {
         if (response.status !== 200) {
-          console.log('Looks like there was a problem. Status Code: ' +
+          console.log("Looks like there was a problem. Status Code: " +
             response.status);
           return;
         }
         response.json().then(function (data) {
           console.log(data);
-          renderDogs(data);
+          renderArticles(data);
         });
       }
     )
     .catch(function (err) {
-      console.log('Fetch Error :-S', err);
+      console.log("Fetch Error :-S", err);
     });
 
-  function renderDogs(dogs) {
+  function renderArticles(dogs) {
+    document.getElementsByClassName("main")[0].setAttribute("style", "all: unset;");
+    document.getElementsByTagName("html")[0].setAttribute("style", "background-color:#ddd;")
     body.innerHTML = "";
     let creater = document.createElement("button");
     creater.setAttribute("class", "rest-creater");
-    creater.setAttribute("onclick", "showdiv();");
-    creater.innerText = "Add a restaurant";
+    creater.setAttribute("onclick", "showartdiv();");
+    creater.innerText = "Add an article";
     let createrdiv = document.createElement("div");
     createrdiv.setAttribute("class", "createrdiv")
     createrdiv.appendChild(creater);
     body.appendChild(createrdiv);
 
     for (let i in dogs) {
-      div = document.createElement('div');
-      img = document.createElement('img');
+      div = document.createElement("div");
+      img = document.createElement("img");
 
-      edit = document.createElement('button');
-      del = document.createElement('button');
+      edit = document.createElement("button");
+      del = document.createElement("button");
 
       edit.innerText = "Edit";
       edit.setAttribute("id", dogs[i].id);
-      edit.setAttribute("onclick", "restaurante(); setTimeout(placeinfo(this.id), 200);");
+      edit.setAttribute("onclick", "articole(); setTimeout(placeartinfo(this.id), 200);");
       edit.setAttribute("class", "but but-edit");
 
       del.innerText = "Delete";
       del.setAttribute("id", dogs[i].id);
-      del.setAttribute("onclick", "deldog(this.id);");
+      del.setAttribute("onclick", "delart(this.id);");
       del.setAttribute("class", "but but-del");
 
-      buttonss = document.createElement('div');
+      buttonss = document.createElement("div");
       buttonss.className = "rest-button-container";
       buttonss.appendChild(edit);
       buttonss.appendChild(del)
 
-      img.setAttribute("src", dogs[i].img);
-      img.className = "rest-img";
-      h2 = document.createElement('h2');
+      h2 = document.createElement("h2");
       h2.innerText = dogs[i].name;
       h2.className = "rest-name";
-      ul = document.createElement('ul');
-      ul.className = "rest-desc";
-      ul.innerHTML = `
-        <li>
-          <i class="fa fa-star fa-2x"></i>
-          <h1 class="rest-address-2">`+ dogs[i].rating + `</h1>
-        </li>
-        <li>
-          <i class="fa fa-map-marker fa-2x"></i>
-          <h1 class="rest-address-2">`+ dogs[i].address + `</h1>
-        </li>
-        <li>
-          <i class="fa fa-phone fa-2x"></i>
-          <h1 class="rest-address-2">`+ dogs[i].phone + `</h1>
-        </li>
-      `
+      p = document.createElement("p");
+      p.setAttribute("class", "art-desc");
+      p.innerText = dogs[i].description;
+
+
       body.setAttribute("style", "background-color:#ddd;");
-      newdiv = document.createElement("div");
-      newdiv.setAttribute("class", "rest-img-div");
-      newdiv.appendChild(img);
-      div.appendChild(newdiv);
       div.appendChild(h2);
-      div.appendChild(ul);
+      div.appendChild(p);
       div.appendChild(buttonss);
-      div.className = "rest-container";
+      div.className = "rest-container article";
       body.appendChild(div);
-      input = document.createElement("input");
     }
   }
+}
+
+function showartdiv() {
+  document.getElementsByClassName("rest-creater")[0].setAttribute("class", "rest-creater but-active");
+
+  let input1 = document.createElement("input");
+  input1.setAttribute("type", "text");
+  input1.setAttribute("id", "input1");
+  input1.setAttribute("placeholder", "Name");
+  input1.setAttribute("maxlength", "30");
+
+  let input2 = document.createElement("input");
+  input2.setAttribute("type", "text");
+  input2.setAttribute("id", "input2");
+  input2.setAttribute("placeholder", "Text");
+
+  let newdiv = document.createElement("div");
+  newdiv.className = "top-buttons";
+
+  let createrdiv = document.getElementsByClassName("createrdiv")[0];
+  newdiv.appendChild(input1);
+  newdiv.appendChild(input2);
+
+
+  let button = document.createElement("button");
+  button.setAttribute("class", "but");
+  button.innerText = "Add";
+  button.setAttribute("onclick", "addart();");
+  newdiv.append(button);
+  document.getElementsByClassName("rest-creater")[0].setAttribute("onclick", "articole();")
+  createrdiv.appendChild(newdiv);
+}
+
+async function addart() {
+  let dog = {
+    name: document.getElementById("input1").value,
+    description: document.getElementById("input2").value
+  };
+  let response = await fetch("http://localhost:3000/articles", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json;charset=utf-8"
+    },
+    body: JSON.stringify(dog)
+  });
+  let result = await response.json();
+  console.log(result);
+  setTimeout(articole(), 500);
+}
+
+async function placeartinfo(i) {
+  let response = await fetch("http://localhost:3000/articles/" + i, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json;charset=utf-8"
+    },
+  });
+  let result = await response.json();
+  let but = document.getElementsByClassName("rest-creater")[0];
+  but.setAttribute("class", "rest-creater but-active");
+  but.innerText = "Editing mode";
+  let input1 = document.createElement("input");
+  input1.setAttribute("type", "text");
+  input1.setAttribute("id", "input1");
+  input1.setAttribute("value", result.name);
+  input1.setAttribute("maxlength", "30");
+
+  let input2 = document.createElement("input");
+  input2.setAttribute("type", "text");
+  input2.setAttribute("id", "input2");
+  input2.setAttribute("value", result.description);
+
+  let newdiv = document.createElement("div");
+  newdiv.className = "top-buttons";
+
+  let createrdiv = document.getElementsByClassName("createrdiv")[0];
+  newdiv.appendChild(input1);
+  newdiv.appendChild(input2);
+
+
+  let button = document.createElement("button");
+  button.setAttribute("class", "but");
+  button.innerText = "Edit";
+  button.setAttribute("id", i);
+  button.setAttribute("onclick", "editart(this.id);");
+  newdiv.append(button);
+  document.getElementsByClassName("rest-creater")[0].setAttribute("onclick", "articole();")
+  createrdiv.appendChild(newdiv);
+  document.body.scrollTop = 0; //Safari
+  document.documentElement.scrollTop = 0; //restul
+}
+
+async function editart(i) {
+  console.log(i);
+  let dog = {
+    name: document.getElementById("input1").value,
+    description: document.getElementById("input2").value
+  };
+  let response = await fetch("http://localhost:3000/articles/" + i, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json;charset=utf-8"
+    },
+    body: JSON.stringify(dog)
+  });
+  let result = await response.json();
+  console.log(result);
+  setTimeout(articole(), 500);
+}
+
+async function delart(i) {
+  let response = await fetch("http://localhost:3000/articles/" + i, {
+    method: "DELETE"
+  });
+
+  let result = await response.json();
+  console.log(result);
+  setTimeout(articole(), 500);
 }

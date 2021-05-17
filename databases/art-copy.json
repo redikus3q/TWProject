@@ -1,0 +1,19 @@
+{
+    "articles": [
+        {
+            "id": "1",
+            "name": "Casa di David",
+            "description": "lorem23"
+          },
+        {
+            "id": "2",
+            "name": "WHYS",
+            "description": "cox"
+        },
+        {
+            "id": "3",
+            "name": "Le Bistrot Francais",
+            "description": "cox"
+        }
+    ]
+  }

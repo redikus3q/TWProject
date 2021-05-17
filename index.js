@@ -41,7 +41,7 @@ app.post("/articles", (req, res) => {
   else{
     dogsList[dogsList.length-1].id=(parseInt(dogsList[dogsList.length-2].id)+1).toString();
   }
-  writeJSONRestaurants(dogsList);
+  writeJSONArticles(dogsList);
   res.json(dogsList);
 });
 
@@ -116,10 +116,8 @@ app.put("/articles/:id", (req, res) => {
   for(let dog in dogsList){
     if(dogsList[dog].id==req.params.id){
       let i=dogsList[dog].id;
-      let j=dogsList[dog].rating;
       dogsList[dog]=req.body;
       dogsList[dog].id=i;
-      dogsList[dog].rating=j;
       k=1;
     }
   }
@@ -127,7 +125,7 @@ app.put("/articles/:id", (req, res) => {
     res.send('"Nu exista restaurantul."');
   }
   else{
-    writeJSONRestaurants(dogsList);
+    writeJSONArticles(dogsList);
     res.send('"S-a modificat."');
   }
 });
@@ -167,7 +165,7 @@ app.delete("/articles/:id", (req, res) => {
     res.send('"Nu exista restaurantul."')
   }
   else{
-    writeJSONRestaurants(newList);
+    writeJSONArticles(newList);
     res.send('"S-a sters."');
   }
   res.sendFile(absolutePath + "index.html");

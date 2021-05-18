@@ -165,10 +165,11 @@ function restaurante() {
       ul = document.createElement("ul");
       ul.className = "rest-desc";
       ul.innerHTML = `
-        <li>
-          <i class="fa fa-star fa-2x"></i>
-          <h1 class="rest-address-2">`+ dogs[i].rating + `</h1>
-        </li>
+      <li>
+        <i class="fa fa-star fa-2x"></i>
+        <h1 class="rest-address-2">`+ dogs[i].rating + `</h1>
+      </li>`
+      ul.innerHTML += `
         <li>
           <i class="fa fa-map-marker fa-2x"></i>
           <h1 class="rest-address-2">`+ dogs[i].address + `</h1>
@@ -238,6 +239,10 @@ function showdiv() {
 }
 
 async function adddog() {
+  if(document.getElementById("input2").value=="" || document.getElementById("input1").value=="" || document.getElementById("input3").value=="" || document.getElementById("input4").value==""){
+    window.alert("Please complete all fields")
+    return;
+  }
   let dog = {
     img: document.getElementById("input2").value,
     name: document.getElementById("input1").value,
@@ -314,7 +319,10 @@ async function placeinfo(i) {
 }
 
 async function editdog(i) {
-  console.log(i);
+  if(document.getElementById("input2").value=="" || document.getElementById("input1").value=="" || document.getElementById("input3").value=="" || document.getElementById("input4").value==""){
+    window.alert("Please complete all fields")
+    return;
+  }
   let dog = {
     img: document.getElementById("input2").value,
     name: document.getElementById("input1").value,
@@ -342,6 +350,7 @@ async function deldog(i) {
   console.log(result);
   setTimeout(restaurante(), 400);
 }
+
 function articole() {
   fetch("http://localhost:3000/articles")
     .then(
@@ -520,6 +529,10 @@ async function placeartinfo(i) {
 }
 
 async function addart() {
+  if(document.getElementById("input2").value=="" || document.getElementById("input1").value==""){
+    window.alert("Please complete all fields")
+    return;
+  }
   let dog = {
     name: document.getElementById("input1").value,
     description: document.getElementById("input2").value
@@ -537,7 +550,10 @@ async function addart() {
 }
 
 async function editart(i) {
-  console.log(i);
+  if(document.getElementById("input2").value=="" || document.getElementById("input1").value==""){
+    window.alert("Please complete all fields")
+    return;
+  }
   let dog = {
     name: document.getElementById("input1").value,
     description: document.getElementById("input2").value

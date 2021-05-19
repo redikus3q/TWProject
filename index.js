@@ -97,7 +97,9 @@ app.put("/dogs/:id", (req, res) => {
       let j=dogsList[dog].rating;
       dogsList[dog]=req.body;
       dogsList[dog].id=i;
-      dogsList[dog].rating=j;
+      if(!req.body.hasOwnProperty("rating")){
+        dogsList[dog].rating=j;
+      }
       k=1;
     }
   }

@@ -19,9 +19,11 @@ fetch("http://localhost:3000/dogs")
 
 function putimg(dogs) {
   x = document.getElementsByClassName("imgmain")[0];
+  s = window.localStorage;
+  s.setItem('Rest', []);
   let k = 0;
   for (let i in dogs) {
-    if (dogs[i].rating >= 4) {
+    if (dogs[i].rating[0] >= 4) {
       x.setAttribute("src", dogs[i].img);
       x.setAttribute("id", "img" + dogs[i].id);
       document.getElementById("rest-title").innerText = dogs[i].name;
@@ -59,7 +61,7 @@ function cxc(x) {
     let y = dog.id[3];
     let goodDogs = [];
     for (let i in dogs) {
-      if (dogs[i].rating >= 4) {
+      if (dogs[i].rating[0] >= 4) {
         goodDogs.push(dogs[i]);
       }
     }
@@ -141,10 +143,11 @@ function restaurante() {
 
       edit = document.createElement("button");
       del = document.createElement("button");
+      rate = document.createElement("button");
 
       edit.innerText = "Edit";
       edit.setAttribute("id", dogs[i].id);
-      edit.setAttribute("onclick", "restaurante(); setTimeout(placeinfo(this.id), 200);");
+      edit.setAttribute("onclick", "placeinfo(this.id);");
       edit.setAttribute("class", "but but-edit");
 
       del.innerText = "Delete";
@@ -152,10 +155,16 @@ function restaurante() {
       del.setAttribute("onclick", "deldog(this.id);");
       del.setAttribute("class", "but but-del");
 
+      rate.innerText = "Rate";
+      rate.setAttribute("id", dogs[i].id);
+      rate.setAttribute("onclick", "ratedog(this.id);");
+      rate.setAttribute("class", "but but-del rate"+dogs[i].id);
+
       buttonss = document.createElement("div");
       buttonss.className = "rest-button-container";
       buttonss.appendChild(edit);
       buttonss.appendChild(del);
+      buttonss.appendChild(rate);
 
       img.setAttribute("src", dogs[i].img);
       img.className = "rest-img";
@@ -164,11 +173,15 @@ function restaurante() {
       h2.className = "rest-name";
       ul = document.createElement("ul");
       ul.className = "rest-desc";
-      ul.innerHTML = `
-      <li>
-        <i class="fa fa-star fa-2x"></i>
-        <h1 class="rest-address-2">`+ dogs[i].rating + `</h1>
-      </li>`
+      let li = document.createElement("li");
+      for(let j=0; j<parseInt(dogs[i].rating[0]); j++){
+        li.innerHTML += `<i class="fa fa-star fa-2x"></i>`
+      }
+      for(let j=parseInt(dogs[i].rating[0]); j<5; j++){
+        li.innerHTML += `<i class="fa fa-star fa-2x" style="color: gray;"></i>`
+      }
+      li.innerHTML += "<p>" + dogs[i].rating[0] + "</p>";
+      ul.appendChild(li);
       ul.innerHTML += `
         <li>
           <i class="fa fa-map-marker fa-2x"></i>
@@ -201,23 +214,27 @@ function showdiv() {
   input1.setAttribute("id", "input1");
   input1.setAttribute("placeholder", "Name");
   input1.setAttribute("maxlength", "30");
+  input1.setAttribute("autocomplete", "chrome-off");
 
   let input2 = document.createElement("input");
   input2.setAttribute("type", "text");
   input2.setAttribute("id", "input2");
   input2.setAttribute("placeholder", "Link");
+  input2.setAttribute("autocomplete", "chrome-off");
 
   let input3 = document.createElement("input");
   input3.setAttribute("type", "text");
   input3.setAttribute("id", "input3");
   input3.setAttribute("placeholder", "Address");
   input3.setAttribute("maxlength", "50");
+  input3.setAttribute("autocomplete", "chrome-off");
 
   let input4 = document.createElement("input");
   input4.setAttribute("type", "text");
   input4.setAttribute("id", "input4");
   input4.setAttribute("placeholder", "Phone");
   input4.setAttribute("maxlength", "20");
+  input4.setAttribute("autocomplete", "chrome-off");
 
   let newdiv = document.createElement("div");
   newdiv.className = "top-buttons";
@@ -246,7 +263,7 @@ async function adddog() {
   let dog = {
     img: document.getElementById("input2").value,
     name: document.getElementById("input1").value,
-    rating: 0,
+    rating: [0, 0],
     address: document.getElementById("input3").value,
     phone: document.getElementById("input4").value
   };
@@ -271,6 +288,13 @@ async function placeinfo(i) {
   });
   let result = await response.json();
   let but = document.getElementsByClassName("rest-creater")[0];
+  try{
+    let xy = document.getElementsByClassName("top-buttons")[0];
+    xy.remove();
+  }
+  catch{
+    ;
+  }
   but.setAttribute("class", "rest-creater but-active");
   but.innerText = "Editing mode";
   let input1 = document.createElement("input");
@@ -341,6 +365,65 @@ async function editdog(i) {
   setTimeout(restaurante(), 400);
 }
 
+function ratedog(i) {
+  let x = document.getElementsByClassName("but but-del rate"+i)[0];
+  let buttonss = x.parentElement;
+  let p = document.createElement("input");
+  p.setAttribute("class", "parareview "+i);
+  p.setAttribute("type", "range");
+  p.setAttribute("min", 1);
+  p.setAttribute("max", 5);
+  p.setAttribute("value", 1);
+  p.setAttribute("style", "outline: none; border:none;")
+  x.remove();
+  let y = document.createElement("button");
+  y.setAttribute("class", "but but-del "+i);
+  y.setAttribute("onclick", "postreview(this.id)");
+  y.setAttribute("id", i);
+  y.innerText = "Submit";
+  buttonss.appendChild(p);
+  buttonss.appendChild(y);
+}
+
+async function postreview(i) {
+  console.log(i);
+  let response = await fetch("http://localhost:3000/dogs/" + i, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json;charset=utf-8"
+    }
+  });
+  let result = await response.json();
+  let newre=0;
+  if(parseInt(result.rating[1])==0){
+    newre=document.getElementsByClassName("parareview "+i)[0].value;
+  }
+  else{
+    let a = parseFloat(document.getElementsByClassName("parareview "+i)[0].value);
+    let b = parseFloat(parseFloat(result.rating[1])*parseFloat(result.rating[0]));
+    let c = parseFloat(parseFloat(result.rating[1])+1);
+    newre = (parseFloat(a)+parseFloat(b))/parseFloat(c);
+  }
+  let dog = {
+    img: result.img,
+    name: result.name,
+    address: result.address,
+    phone: result.phone,
+    rating: [Math.round(newre*100)/100, parseInt(result.rating[1])+1]
+  };
+  console.log(i);
+  let response1 = await fetch("http://localhost:3000/dogs/" + i, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json;charset=utf-8"
+    },
+    body: JSON.stringify(dog)
+  });
+  let result1 = await response1.json();
+  console.log(result1);
+  setTimeout(restaurante(), 400);
+}
+
 async function deldog(i) {
   let response = await fetch("http://localhost:3000/dogs/" + i, {
     method: "DELETE"
@@ -393,7 +476,7 @@ function articole() {
 
       edit.innerText = "Edit";
       edit.setAttribute("id", dogs[i].id);
-      edit.setAttribute("onclick", "articole(); setTimeout(placeartinfo(this.id), 200);");
+      edit.setAttribute("onclick", "placeartinfo(this.id);");
       edit.setAttribute("class", "but but-edit");
 
       del.innerText = "Delete";

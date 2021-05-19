@@ -6,8 +6,8 @@
             "address": "Soseaua Nordului, Bucuresti",
             "phone": "021 232 4715",
             "rating": [
-                "5",
-                "1"
+                4.5,
+                2
             ],
             "id": "1"
         },
@@ -16,8 +16,8 @@
             "name": "WHYS",
             "img": "https://imgur.com/b4w6j3v.jpg",
             "rating": [
-                "5",
-                "1"
+                5,
+                1
             ],
             "address": "Pasajul Macca, Bucuresti",
             "phone": "0785 059 173"
@@ -27,8 +27,8 @@
             "name": "Le Bistrot Francais",
             "img": "https://imgur.com/5fuY1rt.jpg",
             "rating": [
-                "2",
-                "1"
+                2,
+                1
             ],
             "address": "Strada Nicolae Golescu, Bucuresti",
             "phone": "0756 018 393"
@@ -38,8 +38,8 @@
             "name": "Complex Herastrau",
             "img": "https://imgur.com/p1l3ZaB.jpg",
             "rating": [
-                "4",
-                "1"
+                4,
+                1
             ],
             "address": "Soseaua Nordului, Bucuresti",
             "phone": "0786 778 800"
@@ -49,8 +49,8 @@
             "name": "LOFT",
             "img": "https://imgur.com/5CXcTxS.jpg",
             "rating": [
-                "1",
-                "1"
+                1,
+                1
             ],
             "address": "Metropolis Center, Bucuresti",
             "phone": "0756 385 638"

@@ -73,9 +73,17 @@ html{
 .imgdiv{
     position:relative;
     width: 100vw;
-    height: 800px;
+    height: 42vw;
     z-index: 1;
 }
+
+.imgmain{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
 .fade{
     animation: fade 1s;
 }
@@ -88,12 +96,7 @@ html{
     }
 }
 
-.imgmain{
-    width: 100%;
-    height: 800px;
-    object-fit: cover;
-    z-index: 1;
-}
+
 
 .main{
     display:flex;
@@ -120,8 +123,9 @@ html{
     background-color: gray;
     height: 95.2%;
     top:0%;
-    width: 1%;
-    padding:1%;
+    margin:0px;
+    width: 1vw;
+    padding:1vw;
     background-color: rgba(195, 193, 193, .2);
     cursor:pointer;
     z-index: 2;
@@ -140,12 +144,13 @@ body{
 }
 
 .rest-info{
-    border-top: aqua;
+    background-color: #202020;
     border-width: 20px;
     display:flex;
     justify-content: center;
     align-items: center;
     height: 3vw;
+    width: 100vw;
     flex: 1;
 }
 
@@ -323,7 +328,7 @@ input:focus{
 .but-active, .rest-creater:active{
     transform: translatey(4px);
     background-color: rgb(248, 248, 248);
-    box-shadow: 0px 5px rgba(0,0,0,.15);
+    box-shadow: 0px 6px rgba(0,0,0,.15);
 }
 
 button{
@@ -394,4 +399,170 @@ textarea:focus{
     margin-left: 8px;
     margin-top: 13px;
     width: 20%;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1280px){
+    .rest-text, .rest-info *{
+        font-size: 20px !important;
+    }
+    .rest-info {
+        padding-top:0.5vw;
+    }
+    .rest-container{
+        width: 62%;
+    }
+    .navbar{
+        height: 4vh;
+    }
+    #logo{
+        height: 3.5vh;
+    }
+    .content-container{
+        margin-top: -18px;
+    }
+    .rest-name {
+        font-size: 28px;
+    }
+    .fa-2x {
+        font-size: 1em !important;
+        width: auto !important;
+    }
+    .but {
+        width: 59px;
+        height: 25px;
+        font-size: 14px;
+    }
+    .rest-img {
+        height: 140px;
+    }
+    ul li{
+        height:25px;
+    }
+    li {
+        padding-left: 7px;
+    }
+    .rest-button-container {
+        margin-top: -5px;
+    }
+    .rest-creater {
+        width: 150px;
+        height: 33px;
+        font-size: 15px;
+    }
+    .top-buttons{
+        width: auto;
+    }
+    input {
+        margin-top: 10px;
+        width: 40vw;
+        height: 20px;
+        font-size: 15px;
+    }
+    textarea{
+        width: 80vw;
+    }
+    .preview-desc{
+        width: 80vw;
+    }
+    .article *:not(button){
+        font-size: 0.99em;
+    }
+}
+
+@media only screen and (max-width: 768px){
+    .rest-text, .rest-info *{
+        font-size: 14px !important;
+    }
+    .rest-container{
+        width: 73%;
+    }
+    .rest-info {
+        padding-top:1vw;
+    }
+    .navbar{
+        height: 4vh;
+    }
+    #logo{
+        height: 3.5vh;
+    }
+    .content-container{
+        margin-top: -18px;
+    }
+    .rest-name {
+        font-size: 19px;
+    }
+    .fa-2x {
+        font-size: 1em !important;
+        width: auto !important;
+    }
+    .but {
+        width: 50px;
+        height: 18px;
+        font-size: 13px;
+    }
+    .rest-img {
+        height: 85px;
+    }
+    ul li{
+        height:25px;
+    }
+    li {
+        padding-left: 7px;
+    }
+    .rest-button-container {
+        margin-top: 6px;
+    }
+    .rest-creater {
+        width: 109px;
+        height: 23px;
+        font-size: 13px;
+        box-shadow: 0px 6px rgba(0,0,0,.15);
+    }
+    .but-active, .rest-creater:active{
+        transform: translatey(3px);
+        background-color: rgb(248, 248, 248);
+        box-shadow: 0px 3px rgba(0,0,0,.15);
+    }
+    .top-buttons{
+        width: auto;
+    }
+    input {
+        margin-top: 10px;
+        width: 40vw;
+        height: 20px;
+        font-size: 15px;
+    }
+    textarea{
+        width: 80vw;
+    }
+    .preview-desc{
+        width: 80vw;
+    }
+    .article *:not(button){
+        font-size: 0.9em;
+    }
+    .rest-address-2{
+        font-size:11px;
+    }
+    li p{
+        font-size: 11px;
+    }
+}
+
+@media only screen and (max-width: 440px){
+    .rest-img {
+        height: 56px;
+    }
+    .navbar {
+        height: 3vh;
+    }
+    #logo {
+        height: 2.7vh;
+    }
+    .rest-text, .rest-info * {
+        font-size: 9px !important;
+    }
+    .content-container {
+        margin-top: -27px;
+    }
 }

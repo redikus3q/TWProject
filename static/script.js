@@ -1,4 +1,5 @@
 let body = document.getElementsByClassName("content-container")[0];
+let s = window.localStorage;
 
 fetch("http://localhost:3000/dogs")
   .then(
@@ -18,90 +19,70 @@ fetch("http://localhost:3000/dogs")
   });
 
 function putimg(dogs) {
-  x = document.getElementsByClassName("imgmain")[0];
-  s = window.localStorage;
-  s.setItem('Rest', []);
+  let x = document.getElementsByClassName("imgmain")[0];
+  let v = [];
   let k = 0;
   for (let i in dogs) {
     if (dogs[i].rating[0] >= 4) {
-      x.setAttribute("src", dogs[i].img);
-      x.setAttribute("id", "img" + dogs[i].id);
-      document.getElementById("rest-title").innerText = dogs[i].name;
-      document.getElementById("rest-address").innerText = dogs[i].address;
-      document.getElementById("rest-phone").innerText = dogs[i].phone;
+      v.push(dogs[i]);
       k = 1;
-      break;
     }
   }
-  if (k == 0) {
+  if (k == 1) {
+    s.setItem("rest", JSON.stringify(v));
+    let dog = JSON.parse(s.getItem("rest"))[0];
+    x.setAttribute("src", dog.img);
+    x.setAttribute("id", "img" + dog.id);
+    document.getElementById("rest-title").innerText = dog.name;
+    document.getElementById("rest-address").innerText = dog.address;
+    document.getElementById("rest-phone").innerText = dog.phone;
+  }
+  else {
     x.setAttribute("src", "https://imgur.com/OaY5R5h.jpg");
     document.getElementById("rest-title").innerText = "Niciun restaurant";
   }
 }
 
 function cxc(x) {
-  fetch("http://localhost:3000/dogs")
-    .then(
-      function (response) {
-        if (response.status !== 200) {
-          console.log("Looks like there was a problem. Status Code: " +
-            response.status);
-          return;
+  let dog = document.getElementsByClassName("imgmain")[0];
+  let y = dog.id[3];
+  let goodDogs = JSON.parse(s.getItem("rest"));
+  if (goodDogs) {
+    let obj = goodDogs[0];
+    let f = 0;
+    if (x == "-") {
+      for (let i in goodDogs) {
+        if (goodDogs[i].id < y) {
+          obj = goodDogs[i];
+          f = 1;
         }
-        response.json().then(function (data) {
-          solve(data);
-        });
       }
-    )
-    .catch(function (err) {
-      console.log("Fetch Error :-S", err);
-    });
-  function solve(dogs) {
-    let dog = document.getElementsByClassName("imgmain")[0];
-    let y = dog.id[3];
-    let goodDogs = [];
-    for (let i in dogs) {
-      if (dogs[i].rating[0] >= 4) {
-        goodDogs.push(dogs[i]);
+      if (f == 0) {
+        obj = goodDogs[goodDogs.length - 1];
       }
     }
-    if (goodDogs) {
-      let obj = goodDogs[0];
-      let f = 0;
-      if (x == "-") {
-        for (let i in goodDogs) {
-          if (goodDogs[i].id < y) {
-            obj = goodDogs[i];
-            f = 1;
-          }
-        }
-        if (f == 0) {
-          obj = goodDogs[goodDogs.length - 1];
+    if (x == "+") {
+      for (let i in goodDogs) {
+        if (goodDogs[i].id > y) {
+          obj = goodDogs[i];
+          f = 1;
+          break;
         }
       }
-      if (x == "+") {
-        for (let i in goodDogs) {
-          if (goodDogs[i].id > y) {
-            obj = goodDogs[i];
-            f = 1;
-            break;
-          }
-        }
-        if (f == 0) {
-          obj = goodDogs[0];
-        }
+      if (f == 0) {
+        obj = goodDogs[0];
       }
-      dog.setAttribute("src", obj.img);
-      dog.setAttribute("id", "img" + obj.id);
-      dog.setAttribute("animation", "none");
-      dog.className = "imgmain";
-      setTimeout(function () {
-        dog.className = "imgmain fade";
-      }, 10);
-      document.getElementById("rest-title").innerText = obj.name;
-      document.getElementById("rest-address").innerText = obj.address;
-      document.getElementById("rest-phone").innerText = obj.phone;
     }
+    dog.setAttribute("src", obj.img);
+    dog.setAttribute("id", "img" + obj.id);
+    dog.setAttribute("animation", "none");
+    dog.className = "imgmain";
+    setTimeout(function () {
+      dog.className = "imgmain fade";
+    }, 10);
+    document.getElementById("rest-title").innerText = obj.name;
+    document.getElementById("rest-address").innerText = obj.address;
+    document.getElementById("rest-phone").innerText = obj.phone;
   }
 }
 
@@ -158,7 +139,7 @@ function restaurante() {
       rate.innerText = "Rate";
       rate.setAttribute("id", dogs[i].id);
       rate.setAttribute("onclick", "ratedog(this.id);");
-      rate.setAttribute("class", "but but-del rate"+dogs[i].id);
+      rate.setAttribute("class", "but but-del rate" + dogs[i].id);
 
       buttonss = document.createElement("div");
       buttonss.className = "rest-button-container";
@@ -174,10 +155,10 @@ function restaurante() {
       ul = document.createElement("ul");
       ul.className = "rest-desc";
       let li = document.createElement("li");
-      for(let j=0; j<parseInt(dogs[i].rating[0]); j++){
+      for (let j = 0; j < parseInt(dogs[i].rating[0]); j++) {
         li.innerHTML += `<i class="fa fa-star fa-2x"></i>`
       }
-      for(let j=parseInt(dogs[i].rating[0]); j<5; j++){
+      for (let j = parseInt(dogs[i].rating[0]); j < 5; j++) {
         li.innerHTML += `<i class="fa fa-star fa-2x" style="color: gray;"></i>`
       }
       li.innerHTML += "<p>" + dogs[i].rating[0] + "</p>";
@@ -256,7 +237,7 @@ function showdiv() {
 }
 
 async function adddog() {
-  if(document.getElementById("input2").value=="" || document.getElementById("input1").value=="" || document.getElementById("input3").value=="" || document.getElementById("input4").value==""){
+  if (document.getElementById("input2").value == "" || document.getElementById("input1").value == "" || document.getElementById("input3").value == "" || document.getElementById("input4").value == "") {
     window.alert("Please complete all fields")
     return;
   }
@@ -288,11 +269,11 @@ async function placeinfo(i) {
   });
   let result = await response.json();
   let but = document.getElementsByClassName("rest-creater")[0];
-  try{
+  try {
     let xy = document.getElementsByClassName("top-buttons")[0];
     xy.remove();
   }
-  catch{
+  catch {
     ;
   }
   but.setAttribute("class", "rest-creater but-active");
@@ -343,7 +324,7 @@ async function placeinfo(i) {
 }
 
 async function editdog(i) {
-  if(document.getElementById("input2").value=="" || document.getElementById("input1").value=="" || document.getElementById("input3").value=="" || document.getElementById("input4").value==""){
+  if (document.getElementById("input2").value == "" || document.getElementById("input1").value == "" || document.getElementById("input3").value == "" || document.getElementById("input4").value == "") {
     window.alert("Please complete all fields")
     return;
   }
@@ -366,10 +347,10 @@ async function editdog(i) {
 }
 
 function ratedog(i) {
-  let x = document.getElementsByClassName("but but-del rate"+i)[0];
+  let x = document.getElementsByClassName("but but-del rate" + i)[0];
   let buttonss = x.parentElement;
   let p = document.createElement("input");
-  p.setAttribute("class", "parareview "+i);
+  p.setAttribute("class", "parareview " + i);
   p.setAttribute("type", "range");
   p.setAttribute("min", 1);
   p.setAttribute("max", 5);
@@ -377,7 +358,7 @@ function ratedog(i) {
   p.setAttribute("style", "outline: none; border:none;")
   x.remove();
   let y = document.createElement("button");
-  y.setAttribute("class", "but but-del "+i);
+  y.setAttribute("class", "but but-del " + i);
   y.setAttribute("onclick", "postreview(this.id)");
   y.setAttribute("id", i);
   y.innerText = "Submit";
@@ -394,22 +375,22 @@ async function postreview(i) {
     }
   });
   let result = await response.json();
-  let newre=0;
-  if(parseInt(result.rating[1])==0){
-    newre=document.getElementsByClassName("parareview "+i)[0].value;
+  let newre = 0;
+  if (parseInt(result.rating[1]) == 0) {
+    newre = document.getElementsByClassName("parareview " + i)[0].value;
   }
-  else{
-    let a = parseFloat(document.getElementsByClassName("parareview "+i)[0].value);
-    let b = parseFloat(parseFloat(result.rating[1])*parseFloat(result.rating[0]));
-    let c = parseFloat(parseFloat(result.rating[1])+1);
-    newre = (parseFloat(a)+parseFloat(b))/parseFloat(c);
+  else {
+    let a = parseFloat(document.getElementsByClassName("parareview " + i)[0].value);
+    let b = parseFloat(parseFloat(result.rating[1]) * parseFloat(result.rating[0]));
+    let c = parseFloat(parseFloat(result.rating[1]) + 1);
+    newre = (parseFloat(a) + parseFloat(b)) / parseFloat(c);
   }
   let dog = {
     img: result.img,
     name: result.name,
     address: result.address,
     phone: result.phone,
-    rating: [Math.round(newre*100)/100, parseInt(result.rating[1])+1]
+    rating: [Math.round(newre * 100) / 100, parseInt(result.rating[1]) + 1]
   };
   console.log(i);
   let response1 = await fetch("http://localhost:3000/dogs/" + i, {
@@ -544,18 +525,18 @@ function showartdiv() {
 
 function preview() {
   contents = document.getElementsByClassName("content-container")[0];
-  try{
+  try {
     es = document.getElementsByClassName("top-buttons")[1];
     contents.removeChild(es);
   }
-  catch{
+  catch {
     ;
   }
   newdiv = document.createElement("div");
   newdiv.setAttribute("class", "top-buttons buttons-article");
   textb = document.getElementsByTagName("textarea")[0];
   newp = document.createElement("p");
-  newp.setAttribute("class", "art-desc");
+  newp.setAttribute("class", "art-desc preview-desc");
   newp.innerHTML = marked(textb.value, { breaks: true });
   newdiv.append(newp);
   contents.appendChild(newdiv);
@@ -612,7 +593,7 @@ async function placeartinfo(i) {
 }
 
 async function addart() {
-  if(document.getElementById("input2").value=="" || document.getElementById("input1").value==""){
+  if (document.getElementById("input2").value == "" || document.getElementById("input1").value == "") {
     window.alert("Please complete all fields")
     return;
   }
@@ -633,7 +614,7 @@ async function addart() {
 }
 
 async function editart(i) {
-  if(document.getElementById("input2").value=="" || document.getElementById("input1").value==""){
+  if (document.getElementById("input2").value == "" || document.getElementById("input1").value == "") {
     window.alert("Please complete all fields")
     return;
   }

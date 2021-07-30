@@ -1,7 +1,7 @@
 let body = document.getElementsByClassName("content-container")[0];
 let s = window.localStorage;
 
-fetch("http://localhost:3000/dogs")
+fetch(window.location.href+"dogs")
   .then(
     function (response) {
       if (response.status !== 200) {
@@ -87,7 +87,7 @@ function cxc(x) {
 }
 
 function restaurante() {
-  fetch("http://localhost:3000/dogs")
+  fetch(window.location.href+"dogs")
     .then(
       function (response) {
         if (response.status !== 200) {
@@ -248,7 +248,7 @@ async function adddog() {
     address: document.getElementById("input3").value,
     phone: document.getElementById("input4").value
   };
-  let response = await fetch("http://localhost:3000/dogs", {
+  let response = await fetch(window.location.href+"dogs", {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8"
@@ -261,7 +261,7 @@ async function adddog() {
 }
 
 async function placeinfo(i) {
-  let response = await fetch("http://localhost:3000/dogs/" + i, {
+  let response = await fetch(window.location.href+"dogs/" + i, {
     method: "GET",
     headers: {
       "Content-Type": "application/json;charset=utf-8"
@@ -334,7 +334,7 @@ async function editdog(i) {
     address: document.getElementById("input3").value,
     phone: document.getElementById("input4").value,
   };
-  let response = await fetch("http://localhost:3000/dogs/" + i, {
+  let response = await fetch(window.location.href+"dogs" + i, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json;charset=utf-8"
@@ -368,7 +368,7 @@ function ratedog(i) {
 
 async function postreview(i) {
   console.log(i);
-  let response = await fetch("http://localhost:3000/dogs/" + i, {
+  let response = await fetch(window.location.href+"dogs/" + i, {
     method: "GET",
     headers: {
       "Content-Type": "application/json;charset=utf-8"
@@ -393,7 +393,7 @@ async function postreview(i) {
     rating: [Math.round(newre * 100) / 100, parseInt(result.rating[1]) + 1]
   };
   console.log(i);
-  let response1 = await fetch("http://localhost:3000/dogs/" + i, {
+  let response1 = await fetch(window.location.href+"dogs/" + i, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json;charset=utf-8"
@@ -406,7 +406,7 @@ async function postreview(i) {
 }
 
 async function deldog(i) {
-  let response = await fetch("http://localhost:3000/dogs/" + i, {
+  let response = await fetch(window.location.href+"dogs/" + i, {
     method: "DELETE"
   });
 
@@ -416,7 +416,7 @@ async function deldog(i) {
 }
 
 function articole() {
-  fetch("http://localhost:3000/articles")
+  fetch(window.location.href+"articles")
     .then(
       function (response) {
         if (response.status !== 200) {
@@ -543,7 +543,7 @@ function preview() {
 }
 
 async function placeartinfo(i) {
-  let response = await fetch("http://localhost:3000/articles/" + i, {
+  let response = await fetch(window.location.href+"articles/" + i, {
     method: "GET",
     headers: {
       "Content-Type": "application/json;charset=utf-8"
@@ -601,7 +601,7 @@ async function addart() {
     name: document.getElementById("input1").value,
     description: document.getElementById("input2").value
   };
-  let response = await fetch("http://localhost:3000/articles", {
+  let response = await fetch(window.location.href+"articles", {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8"
@@ -622,7 +622,7 @@ async function editart(i) {
     name: document.getElementById("input1").value,
     description: document.getElementById("input2").value
   };
-  let response = await fetch("http://localhost:3000/articles/" + i, {
+  let response = await fetch(window.location.href+"articles/" + i, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json;charset=utf-8"
@@ -635,7 +635,7 @@ async function editart(i) {
 }
 
 async function delart(i) {
-  let response = await fetch("http://localhost:3000/articles/" + i, {
+  let response = await fetch(window.location.href+"articles/" + i, {
     method: "DELETE"
   });
 

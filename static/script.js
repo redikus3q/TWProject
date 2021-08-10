@@ -32,6 +32,7 @@ function putimg(dogs) {
     s.setItem("rest", JSON.stringify(v));
     let dog = JSON.parse(s.getItem("rest"))[0];
     x.setAttribute("src", dog.img);
+    x.setAttribute("alt", dog.name + " photo");
     x.setAttribute("id", "img" + dog.id);
     document.getElementById("rest-title").innerText = dog.name;
     document.getElementById("rest-address").innerText = dog.address;

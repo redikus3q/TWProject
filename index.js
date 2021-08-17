@@ -4,11 +4,11 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const marked = require('marked');
+const { MongoClient, ObjectId } = require("mongodb");
 
-const fs = require("fs");
 let absolutePath = __dirname + "/static/";
 
-// Aplicatia
+// Aplication
 const app = express();
 
 // Middleware
@@ -18,195 +18,109 @@ app.use(cors());
 
 app.use(express.static(__dirname + '/static'));
 
+// Mongo connection
+const uri = "mongodb+srv://reviewr:andunita@cluster0.71lik.mongodb.net/reviewr?retryWrites=true&w=majority";
+const client = new MongoClient(uri);
+async function run() {
+  try {
+    await client.connect();
+    await client.db("admin").command({ ping: 1 });
+    console.log("Connected successfully to mongodb server");
+  }
+  finally {
+    ;
+  }
+}
+run().catch(console.dir);
+
 // Create
-app.post("/dogs", (req, res) => {
-  const dogsList = readJSONRestaurants();
-  dogsList.push(req.body);
-  if(dogsList.length==1){
-    dogsList[0].id="1";
-  }
-  else{
-    dogsList[dogsList.length-1].id=(parseInt(dogsList[dogsList.length-2].id)+1).toString();
-  }
-  writeJSONRestaurants(dogsList);
-  res.json(dogsList);
+app.post("/restaurants", (req, res) => {
+  client.db("reviewr").collection("restaurants").insertOne(req.body);
+  client.db("reviewr").collection("restaurants").find({}, {}).toArray()
+    .then(x => res.json(x));
 });
 
 app.post("/articles", (req, res) => {
-  const dogsList = readJSONArticles();
-  dogsList.push(req.body);
-  if(dogsList.length==1){
-    dogsList[0].id="1";
-  }
-  else{
-    dogsList[dogsList.length-1].id=(parseInt(dogsList[dogsList.length-2].id)+1).toString();
-  }
-  writeJSONArticles(dogsList);
-  res.json(dogsList);
+  client.db("reviewr").collection("articles").insertOne(req.body);
+  client.db("reviewr").collection("articles").find({}, {}).toArray()
+    .then(x => res.json(x));
 });
 
 // Read One
-app.get("/dogs/:id", (req, res) => {
-  const dogsList = readJSONRestaurants();
-  let ok = 0;
-  for (let dog in dogsList){
-    if(dogsList[dog].id==req.params.id){
-      ok=1;
-      res.json(dogsList[dog]);
-    }
-  }
-  if(ok==0){
-    res.send('"Nu exista restaurantul."');
-  }
+app.get("/restaurants/:id", (req, res) => {
+  client.db("reviewr").collection("restaurants").find({ "_id": ObjectId(req.params.id) }, {}).next()
+    .then(x => {
+        if(x){
+          res.json(x);
+        }
+        else{
+          res.send('"The restaurant cannot be found."');
+        }
+    });
 });
 
 app.get("/articles/:id", (req, res) => {
-  const dogsList = readJSONArticles();
-  let ok = 0;
-  for (let dog in dogsList){
-    if(dogsList[dog].id==req.params.id){
-      ok=1;
-      res.json(dogsList[dog]);
-    }
-  }
-  if(ok==0){
-    res.send('"Nu exista restaurantul."');
-  }
+  client.db("reviewr").collection("articles").find({ "_id": ObjectId(req.params.id) }, {}).next()
+    .then(x => {
+        if(x){
+          res.json(x);
+        }
+        else{
+          res.send('"The article cannot be found."');
+        }
+    });
 });
 
 // Read All
-app.get("/dogs", (req, res) => {
-  const dogsList = readJSONRestaurants();
-  console.log(dogsList);
-  res.json(dogsList);
+app.get("/restaurants", (req, res) => {
+  client.db("reviewr").collection("restaurants").find({}, {}).toArray()
+    .then(x => res.json(x));
 });
 
 app.get("/articles", (req, res) => {
-  const dogsList = readJSONArticles();
-  console.log(dogsList);
-  res.json(dogsList);
+  client.db("reviewr").collection("articles").find({}, {}).toArray()
+    .then(x => res.json(x));
 });
 
 // Update
-app.put("/dogs/:id", (req, res) => {
-  const dogsList = readJSONRestaurants();
-  let k=0;
-  for(let dog in dogsList){
-    if(dogsList[dog].id==req.params.id){
-      let i=dogsList[dog].id;
-      let j=dogsList[dog].rating;
-      dogsList[dog]=req.body;
-      dogsList[dog].id=i;
-      if(!req.body.hasOwnProperty("rating")){
-        dogsList[dog].rating=j;
-      }
-      k=1;
-    }
-  }
-  if(k==0){
-    res.send('"Nu exista restaurantul."');
-  }
-  else{
-    writeJSONRestaurants(dogsList);
-    res.send('"S-a modificat."');
-  }
+app.put("/restaurants/:id", (req, res) => {
+  let current = client.db("reviewr").collection("restaurants").find({ "_id": ObjectId(req.params.id) }, {}).next();
+  let newo = (current, req.body);
+  client.db("reviewr").collection("restaurants").updateOne({"_id" : ObjectId(req.params.id)}, {$set: newo});
+  client.db("reviewr").collection("restaurants").find({}, {}).toArray()
+    .then(x => res.json(x));
 });
 
 app.put("/articles/:id", (req, res) => {
-  const dogsList = readJSONArticles();
-  let k=0;
-  for(let dog in dogsList){
-    if(dogsList[dog].id==req.params.id){
-      let i=dogsList[dog].id;
-      dogsList[dog]=req.body;
-      dogsList[dog].id=i;
-      k=1;
-    }
-  }
-  if(k==0){
-    res.send('"Nu exista restaurantul."');
-  }
-  else{
-    writeJSONArticles(dogsList);
-    res.send('"S-a modificat."');
-  }
+  let current = client.db("reviewr").collection("articles").find({ "_id": ObjectId(req.params.id) }, {}).next();
+  let newo = (current, req.body);
+  client.db("reviewr").collection("articles").updateOne({"_id" : ObjectId(req.params.id)}, {$set: newo});
+  client.db("reviewr").collection("articles").find({}, {}).toArray()
+    .then(x => res.json(x));
 });
 
 // Delete
-app.delete("/dogs/:id", (req, res) => {
-  const dogsList = readJSONRestaurants();
-  let newList=[];
-  let k=0;
-  for(let dog in dogsList){
-    if(dogsList[dog].id!=req.params.id){
-      newList.push(dogsList[dog]);
-      k+=1;
-    }
+app.delete("/restaurants/:id", (req, res) => {
+  try{
+    client.db("reviewr").collection("restaurants").deleteOne({"_id" : ObjectId(req.params.id)});
   }
-  if(k==dogsList.length){
-    res.send('"Nu exista restaurantul."')
+  catch(e){
+    console.log(e);
   }
-  else{
-    writeJSONRestaurants(newList);
-    res.send('"S-a sters."');
-  }
-  res.sendFile(absolutePath + "index.html");
+  client.db("reviewr").collection("restaurants").find({}, {}).toArray()
+    .then(x => res.json(x));
 });
 
 app.delete("/articles/:id", (req, res) => {
-  const dogsList = readJSONArticles();
-  let newList=[];
-  let k=0;
-  for(let dog in dogsList){
-    if(dogsList[dog].id!=req.params.id){
-      newList.push(dogsList[dog]);
-      k+=1;
-    }
+  try{
+    client.db("reviewr").collection("articles").deleteOne({"_id" : ObjectId(req.params.id)});
   }
-  if(k==dogsList.length){
-    res.send('"Nu exista restaurantul."')
+  catch(e){
+    console.log(e);
   }
-  else{
-    writeJSONArticles(newList);
-    res.send('"S-a sters."');
-  }
-  res.sendFile(absolutePath + "index.html");
+  client.db("reviewr").collection("articles").find({}, {}).toArray()
+    .then(x => res.json(x));
 });
-
-//Manipulare JSON
-function readJSONRestaurants() {
-  return JSON.parse(fs.readFileSync("databases/restaurants.json"))["restaurants"];
-}
-
-function writeJSONRestaurants(content) {
-  fs.writeFileSync(
-    "databases/restaurants.json",
-    JSON.stringify({ restaurants: content }),
-    "utf8",
-    err => {
-      if (err) {
-        console.log(err);
-      }
-    }
-  );
-}
-
-function readJSONArticles() {
-  return JSON.parse(fs.readFileSync("databases/articles.json"))["articles"];
-}
-
-function writeJSONArticles(content) {
-  fs.writeFileSync(
-    "databases/articles.json",
-    JSON.stringify({ articles: content }),
-    "utf8",
-    err => {
-      if (err) {
-        console.log(err);
-      }
-    }
-  );
-}
 
 app.listen(process.env.PORT || 3000, () =>
   console.log("Server started at: http://localhost:" + ((typeof process.env.PORT === 'undefined') ? 3000 : process.env.PORT))

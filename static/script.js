@@ -1,7 +1,6 @@
 let body = document.getElementsByClassName("content-container")[0];
 let s = window.localStorage;
-
-fetch(window.location.href+"dogs")
+fetch(window.location.href + "restaurants")
   .then(
     function (response) {
       if (response.status !== 200) {
@@ -18,22 +17,22 @@ fetch(window.location.href+"dogs")
     console.log("Fetch Error :-S", err);
   });
 
-function putimg(dogs) {
+function putimg(restaurants) {
   let x = document.getElementsByClassName("imgmain")[0];
   let v = [];
   let k = 0;
-  for (let i in dogs) {
-    if (dogs[i].rating[0] >= 4) {
-      v.push(dogs[i]);
+  for (let i in restaurants) {
+    if (restaurants[i].rating[0] >= 4) {
+      v.push(restaurants[i]);
       k = 1;
     }
   }
   if (k == 1) {
     s.setItem("rest", JSON.stringify(v));
+    s.setItem("currpointer", 0);
     let dog = JSON.parse(s.getItem("rest"))[0];
     x.setAttribute("src", dog.img);
     x.setAttribute("alt", dog.name + " photo");
-    x.setAttribute("id", "img" + dog.id);
     document.getElementById("rest-title").innerText = dog.name;
     document.getElementById("rest-address").innerText = dog.address;
     document.getElementById("rest-phone").innerText = dog.phone;
@@ -46,36 +45,31 @@ function putimg(dogs) {
 
 function cxc(x) {
   let dog = document.getElementsByClassName("imgmain")[0];
-  let y = dog.id[3];
-  let goodDogs = JSON.parse(s.getItem("rest"));
-  if (goodDogs) {
-    let obj = goodDogs[0];
-    let f = 0;
+  let goodrestaurants = JSON.parse(s.getItem("rest"));
+  let len = goodrestaurants.length - 1;
+  if (goodrestaurants) {
+    let obj = goodrestaurants[0];
+    let pointer = parseInt(s.getItem("currpointer"))
     if (x == "-") {
-      for (let i in goodDogs) {
-        if (goodDogs[i].id < y) {
-          obj = goodDogs[i];
-          f = 1;
-        }
+      if (pointer == 0) {
+        pointer = len;
       }
-      if (f == 0) {
-        obj = goodDogs[goodDogs.length - 1];
+      else {
+        pointer = pointer - 1;
       }
+      obj = goodrestaurants[pointer];
     }
     if (x == "+") {
-      for (let i in goodDogs) {
-        if (goodDogs[i].id > y) {
-          obj = goodDogs[i];
-          f = 1;
-          break;
-        }
+      if (pointer == len) {
+        pointer = 0;
       }
-      if (f == 0) {
-        obj = goodDogs[0];
+      else {
+        pointer = pointer + 1;
       }
+      obj = goodrestaurants[pointer];
     }
+    s.setItem("currpointer", pointer);
     dog.setAttribute("src", obj.img);
-    dog.setAttribute("id", "img" + obj.id);
     dog.setAttribute("animation", "none");
     dog.className = "imgmain";
     setTimeout(function () {
@@ -88,7 +82,7 @@ function cxc(x) {
 }
 
 function restaurante() {
-  fetch(window.location.href+"dogs")
+  fetch(window.location.href + "restaurants")
     .then(
       function (response) {
         if (response.status !== 200) {
@@ -98,7 +92,7 @@ function restaurante() {
         }
         response.json().then(function (data) {
           console.log(data);
-          renderDogs(data);
+          renderrestaurants(data);
         });
       }
     )
@@ -106,7 +100,7 @@ function restaurante() {
       console.log("Fetch Error :-S", err);
     });
 
-  function renderDogs(dogs) {
+  function renderrestaurants(restaurants) {
     document.getElementsByClassName("main")[0].setAttribute("style", "all: unset;");
     document.getElementsByTagName("html")[0].setAttribute("style", "background-color:#ddd; ");
     body.innerHTML = "";
@@ -119,7 +113,7 @@ function restaurante() {
     createrdiv.appendChild(creater);
     body.appendChild(createrdiv);
 
-    for (let i in dogs) {
+    for (let i in restaurants) {
       div = document.createElement("div");
       img = document.createElement("img");
 
@@ -128,19 +122,19 @@ function restaurante() {
       rate = document.createElement("button");
 
       edit.innerText = "Edit";
-      edit.setAttribute("id", dogs[i].id);
+      edit.setAttribute("id", restaurants[i]._id);
       edit.setAttribute("onclick", "placeinfo(this.id);");
       edit.setAttribute("class", "but but-edit");
 
       del.innerText = "Delete";
-      del.setAttribute("id", dogs[i].id);
+      del.setAttribute("id", restaurants[i]._id);
       del.setAttribute("onclick", "deldog(this.id);");
       del.setAttribute("class", "but but-del");
 
       rate.innerText = "Rate";
-      rate.setAttribute("id", dogs[i].id);
+      rate.setAttribute("id", restaurants[i]._id);
       rate.setAttribute("onclick", "ratedog(this.id);");
-      rate.setAttribute("class", "but but-del rate" + dogs[i].id);
+      rate.setAttribute("class", "but but-del rate" + restaurants[i]._id);
 
       buttonss = document.createElement("div");
       buttonss.className = "rest-button-container";
@@ -148,30 +142,30 @@ function restaurante() {
       buttonss.appendChild(del);
       buttonss.appendChild(rate);
 
-      img.setAttribute("src", dogs[i].img);
+      img.setAttribute("src", restaurants[i].img);
       img.className = "rest-img";
       h2 = document.createElement("h2");
-      h2.innerText = dogs[i].name;
+      h2.innerText = restaurants[i].name;
       h2.className = "rest-name";
       ul = document.createElement("ul");
       ul.className = "rest-desc";
       let li = document.createElement("li");
-      for (let j = 0; j < parseInt(dogs[i].rating[0]); j++) {
+      for (let j = 0; j < parseInt(restaurants[i].rating[0]); j++) {
         li.innerHTML += `<i class="fa fa-star fa-2x"></i>`
       }
-      for (let j = parseInt(dogs[i].rating[0]); j < 5; j++) {
+      for (let j = parseInt(restaurants[i].rating[0]); j < 5; j++) {
         li.innerHTML += `<i class="fa fa-star fa-2x" style="color: gray;"></i>`
       }
-      li.innerHTML += "<p>" + dogs[i].rating[0] + "</p>";
+      li.innerHTML += "<p>" + restaurants[i].rating[0] + "</p>";
       ul.appendChild(li);
       ul.innerHTML += `
         <li>
           <i class="fa fa-map-marker fa-2x"></i>
-          <h1 class="rest-address-2">`+ dogs[i].address + `</h1>
+          <h1 class="rest-address-2">`+ restaurants[i].address + `</h1>
         </li>
         <li>
           <i class="fa fa-phone fa-2x"></i>
-          <h1 class="rest-address-2">`+ dogs[i].phone + `</h1>
+          <h1 class="rest-address-2">`+ restaurants[i].phone + `</h1>
         </li>
       `;
       body.setAttribute("style", "background-color:#ddd;");
@@ -249,7 +243,7 @@ async function adddog() {
     address: document.getElementById("input3").value,
     phone: document.getElementById("input4").value
   };
-  let response = await fetch(window.location.href+"dogs", {
+  let response = await fetch(window.location.href + "restaurants", {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8"
@@ -262,7 +256,7 @@ async function adddog() {
 }
 
 async function placeinfo(i) {
-  let response = await fetch(window.location.href+"dogs/" + i, {
+  let response = await fetch(window.location.href + "restaurants/" + i, {
     method: "GET",
     headers: {
       "Content-Type": "application/json;charset=utf-8"
@@ -335,7 +329,7 @@ async function editdog(i) {
     address: document.getElementById("input3").value,
     phone: document.getElementById("input4").value,
   };
-  let response = await fetch(window.location.href+"dogs" + i, {
+  let response = await fetch(window.location.href + "restaurants/" + i, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json;charset=utf-8"
@@ -368,8 +362,7 @@ function ratedog(i) {
 }
 
 async function postreview(i) {
-  console.log(i);
-  let response = await fetch(window.location.href+"dogs/" + i, {
+  let response = await fetch(window.location.href + "restaurants/" + i, {
     method: "GET",
     headers: {
       "Content-Type": "application/json;charset=utf-8"
@@ -393,8 +386,7 @@ async function postreview(i) {
     phone: result.phone,
     rating: [Math.round(newre * 100) / 100, parseInt(result.rating[1]) + 1]
   };
-  console.log(i);
-  let response1 = await fetch(window.location.href+"dogs/" + i, {
+  let response1 = await fetch(window.location.href + "restaurants/" + i, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json;charset=utf-8"
@@ -402,12 +394,11 @@ async function postreview(i) {
     body: JSON.stringify(dog)
   });
   let result1 = await response1.json();
-  console.log(result1);
   setTimeout(restaurante(), 400);
 }
 
 async function deldog(i) {
-  let response = await fetch(window.location.href+"dogs/" + i, {
+  let response = await fetch(window.location.href + "restaurants/" + i, {
     method: "DELETE"
   });
 
@@ -417,7 +408,7 @@ async function deldog(i) {
 }
 
 function articole() {
-  fetch(window.location.href+"articles")
+  fetch(window.location.href + "articles")
     .then(
       function (response) {
         if (response.status !== 200) {
@@ -435,7 +426,7 @@ function articole() {
       console.log("Fetch Error :-S", err);
     });
 
-  function renderArticles(dogs) {
+  function renderArticles(restaurants) {
     document.getElementsByClassName("main")[0].setAttribute("style", "all: unset;");
     document.getElementsByTagName("body")[0].setAttribute("style", "background-color:#ddd;");
     document.getElementsByTagName("html")[0].setAttribute("style", "font-family: Arial, Helvetica, sans-serif;");
@@ -450,19 +441,19 @@ function articole() {
     body.appendChild(createrdiv);
     let ccdiv = document.createElement("div");
     ccdiv.className = "article-cc";
-    for (let i in dogs) {
+    for (let i in restaurants) {
       div = document.createElement("div");
 
       edit = document.createElement("button");
       del = document.createElement("button");
 
       edit.innerText = "Edit";
-      edit.setAttribute("id", dogs[i].id);
+      edit.setAttribute("id", restaurants[i]._id);
       edit.setAttribute("onclick", "placeartinfo(this.id);");
       edit.setAttribute("class", "but but-edit");
 
       del.innerText = "Delete";
-      del.setAttribute("id", dogs[i].id);
+      del.setAttribute("id", restaurants[i]._id);
       del.setAttribute("onclick", "delart(this.id);");
       del.setAttribute("class", "but but-del");
 
@@ -473,7 +464,7 @@ function articole() {
 
       p = document.createElement("p");
       p.setAttribute("class", "art-desc");
-      p.innerHTML = marked(dogs[i].description, { breaks: true });
+      p.innerHTML = marked(restaurants[i].description, { breaks: true });
 
       div.appendChild(p);
       div.appendChild(buttonss);
@@ -544,7 +535,7 @@ function preview() {
 }
 
 async function placeartinfo(i) {
-  let response = await fetch(window.location.href+"articles/" + i, {
+  let response = await fetch(window.location.href + "articles/" + i, {
     method: "GET",
     headers: {
       "Content-Type": "application/json;charset=utf-8"
@@ -602,7 +593,7 @@ async function addart() {
     name: document.getElementById("input1").value,
     description: document.getElementById("input2").value
   };
-  let response = await fetch(window.location.href+"articles", {
+  let response = await fetch(window.location.href + "articles", {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8"
@@ -623,7 +614,7 @@ async function editart(i) {
     name: document.getElementById("input1").value,
     description: document.getElementById("input2").value
   };
-  let response = await fetch(window.location.href+"articles/" + i, {
+  let response = await fetch(window.location.href + "articles/" + i, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json;charset=utf-8"
@@ -636,7 +627,7 @@ async function editart(i) {
 }
 
 async function delart(i) {
-  let response = await fetch(window.location.href+"articles/" + i, {
+  let response = await fetch(window.location.href + "articles/" + i, {
     method: "DELETE"
   });
 

@@ -122,6 +122,29 @@ app.delete("/articles/:id", (req, res) => {
     .then(x => res.json(x));
 });
 
+// Query
+app.get("/restaurants/filter/:a", (req, res) => {
+  if(req.params.a=="x"){
+    client.db("reviewr").collection("restaurants").find({}, {}).toArray()
+      .then(x => res.json(x));
+    return;
+  }
+  let string = req.params.a.split("&");
+  let v;
+  if(string[0][0] == 'r'){
+    let number = parseFloat(string[0].slice(3));
+    if(string[0][2] == 'h'){
+      v = client.db("reviewr").collection("restaurants").find({"rating.0": {$gte:number}}, {});
+    }
+    else if(string[0][2] == 'l'){
+      v = client.db("reviewr").collection("restaurants").find({"rating.0": {$lte:number}}, {});
+    }
+  }
+  v.toArray()
+      .then(x => res.json(x));
+});
+
+
 app.listen(process.env.PORT || 3000, () =>
   console.log("Server started at: http://localhost:" + ((typeof process.env.PORT === 'undefined') ? 3000 : process.env.PORT))
 );

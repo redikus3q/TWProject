@@ -96,8 +96,6 @@ html{
     }
 }
 
-
-
 .main{
     display:flex;
     justify-content: center;
@@ -213,6 +211,11 @@ body{
     margin-left: 5px;
 }
 
+h3{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: #413f3f;
+}
+
 .rest-desc{
     grid-column: 2/3;
     grid-row: 2/3;
@@ -226,7 +229,7 @@ body{
 }
 
 .rest-address-2{
-    font-size: 15px;
+    font-size: 16px;
     color:black;
     font-weight: 500;
 }
@@ -251,6 +254,42 @@ li{
 
 .createrdiv *{
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 18px;
+}
+
+.buttondiv {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+.ratingdiv {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+h4 {
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+}
+
+.ratingcheckbox {
+    height: 25px;
+}
+
+.hilo{
+    /* display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; */
+    display:grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .top-buttons{
@@ -270,7 +309,7 @@ li{
   box-shadow: -5px 5px rgba(0,0,0,.25);
 }
 
-input{
+input[type=text], input[type=number]{
     margin-top: 10px;
     width: 80%;
     height: 25px;
@@ -279,10 +318,18 @@ input{
     box-shadow:inset 0 0 2px 1px #cccccc;
 }
 
-input:focus{
+input[type=text]:focus, input[type=number]:focus{
     outline:none;
     box-shadow:inset 0 0 2px 1px #9c9c9c;
 }
+
+input[type=number]{
+    width:auto;
+    margin-top: 1px;
+    margin-left: 6px;
+    height: auto;
+}
+
 
 .but{
     margin-top: 8px;
@@ -321,6 +368,8 @@ input:focus{
     border-radius: 15%;
     box-shadow: 0px 10px rgba(0,0,0,.15);
     margin-top: 40px;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 .rest-creater:hover{
     background-color: rgb(248, 248, 248);
@@ -452,11 +501,17 @@ textarea:focus{
     .top-buttons{
         width: auto;
     }
-    input {
+    input[type=text] {
         margin-top: 10px;
         width: 40vw;
         height: 20px;
         font-size: 15px;
+    }
+    input[type=number]{
+        font-size: 15px;
+    }
+    .createrdiv * {
+        font-size: 13px;
     }
     textarea{
         width: 80vw;
@@ -526,11 +581,17 @@ textarea:focus{
     .top-buttons{
         width: auto;
     }
-    input {
+    input[type=text] {
         margin-top: 10px;
         width: 40vw;
         height: 20px;
         font-size: 15px;
+    }
+    input[type=number]{
+        font-size: 15px;
+    }
+    .createrdiv * {
+        font-size: 13px;
     }
     textarea{
         width: 80vw;

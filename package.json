@@ -1,6 +1,6 @@
 {
-  "name": "lab11",
-  "version": "1.0.0",
+  "name": "reviewr",
+  "version": "2.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {

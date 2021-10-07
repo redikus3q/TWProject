@@ -6,7 +6,14 @@ More features such as searching restaurants by name and filtering based on more 
 Available at: https://reviewr.azurewebsites.net/. Might take longer to load.
 
 ## Installation
-For Windows machines.
-https://reviewr.azurewebsites.net/
+Download and install [Node.js](https://nodejs.org/en/download/).
+
+(Optional) Install the [Nodemon](https://www.npmjs.com/package/nodemon) package using the following command run in the main directory of the project.
+
+```bash
+node install -g nodemon
+```
+
 ## Usage
 Double-click the start.bat file.
+If you didn't install the Nodemon package, you should edit the bat and replace "nodemon index.js" with "node index.js".

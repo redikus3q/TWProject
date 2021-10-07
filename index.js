@@ -3,7 +3,8 @@ const express = require("express");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const marked = require('marked');
+const marked = require("marked");
+const html = marked('# Marked in Node.js\n\nRendered by **marked**.');
 const { MongoClient, ObjectId } = require("mongodb");
 
 let absolutePath = __dirname + "/static/";

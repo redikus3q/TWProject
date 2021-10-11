@@ -3,7 +3,7 @@ Single-page application built using CSS, HTML, Javascript and Node.js. Most of t
 
 More features such as searching restaurants by name and filtering based on more criteria are going to be added in the new versions.
 
-Available at: https://reviewr.azurewebsites.net/. Might take longer to load.
+Demo available at: https://reviewr.azurewebsites.net/. Might take longer to load.
 
 ## Installation
 Download and install [Node.js](https://nodejs.org/en/download/).
@@ -17,7 +17,7 @@ node install -g nodemon
 ## Usage
 Double-click the start.bat file. The website will be available to use at [localhost:3000](https://localhost:3000/).
 
-Alternatively, it can be started using the command prompt as such:
+Alternatively, it can be started using a command prompt command run in the main directory of the project as such:
 
 ```bash
 nodemon index.js

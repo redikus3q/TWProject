@@ -15,6 +15,8 @@ node install -g nodemon
 ```
 
 ## Usage
+[Clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) or [download](https://www.itprotoday.com/development-techniques-and-management/how-do-i-download-files-github) the application.
+
 Double-click the start.bat file. The website will be available to use at [localhost:3000](https://localhost:3000/).
 
 Alternatively, it can be started using a command prompt command run in the main directory of the project as such:

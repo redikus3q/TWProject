@@ -8,12 +8,19 @@ Available at: https://reviewr.azurewebsites.net/. Might take longer to load.
 ## Installation
 Download and install [Node.js](https://nodejs.org/en/download/).
 
-(Optional) Install the [Nodemon](https://www.npmjs.com/package/nodemon) package using the following command run in the main directory of the project.
+(Optional) Install the [Nodemon](https://www.npmjs.com/package/nodemon) package using the following command run in the main directory of the project. It enables the auto-restart of the aplication when a file of the project is modified. Recommended if you want to modify the application.
 
 ```bash
 node install -g nodemon
 ```
 
 ## Usage
-Double-click the start.bat file.
-If you didn't install the Nodemon package, you should edit the bat and replace "nodemon index.js" with "node index.js".
+Double-click the start.bat file. The website will be available to use at [localhost:3000](https://localhost:3000/).
+
+Alternatively, it can be started using the command prompt as such:
+
+```bash
+nodemon index.js
+```
+
+If you didn't install the nodemon package, replace 'nodemon' with 'node' in the aforementioned command and/or in the bat file.

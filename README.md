@@ -1,5 +1,5 @@
 # Restaurant reviewer website
-Single-page application built using CSS, HTML, Javascript and [Node.js](https://nodejs.org/en/). Most of the content is dinamically generated using DOM, only the front page being built in HTML. The application is connected to a MongoDB database using MongoDB’s Node.js driver so that users can interact with the database of restaurants and articles. Features a Markdown to HTML parser so that users can write formatted articles using Markdown.
+Single-page application built using CSS, HTML, Javascript and [Node.js](https://nodejs.org/en/). Most of the content is dinamically generated using DOM, only the front page being built in HTML. The application is connected to a [MongoDB](https://www.mongodb.com/) database using MongoDB’s Node.js driver so that users can interact with the database of restaurants and articles. Features a Markdown to HTML parser so that users can write formatted articles using Markdown.
 
 More features such as searching restaurants by name and filtering based on more criteria are going to be added in the new versions.
 

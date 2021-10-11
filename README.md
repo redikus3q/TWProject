@@ -5,7 +5,7 @@ More features such as searching restaurants by name and filtering based on more 
 
 Demo available at: https://reviewr.azurewebsites.net/. Might take longer to load.
 
-## Installation
+## Prerequisites
 Download and install [Node.js](https://nodejs.org/en/download/).
 
 (Optional) Install the [Nodemon](https://www.npmjs.com/package/nodemon) package using the following command run in the main directory of the project. It enables the auto-restart of the aplication when a file of the project is modified. Recommended if you want to modify the application.
@@ -14,9 +14,16 @@ Download and install [Node.js](https://nodejs.org/en/download/).
 node install -g nodemon
 ```
 
-## Usage
+## Installation
 [Clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) or [download](https://www.itprotoday.com/development-techniques-and-management/how-do-i-download-files-github) the application.
 
+Run the following command using the command prompt in the main directory of the project.
+
+```bash
+npm install
+```
+
+## Usage
 Double-click the start.bat file. The website will be available to use at [localhost:3000](https://localhost:3000/).
 
 Alternatively, it can be started using a command prompt command run in the main directory of the project as such:
